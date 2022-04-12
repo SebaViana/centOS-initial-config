@@ -1,0 +1,27 @@
+- name: config centOS
+  hosts: centOS_demo
+  gather_facts: yes
+  vars:
+    repo_url: https://github.com/SebaViana/jira-weekly-report
+    project_dir: /projects/current-project
+  tasks:
+    - name: install vim
+      yum: name=vim state=latest
+    - name: install apache
+      yum: name=httpd state=latest
+    - name: install dependencies
+      yum: name={{ item }} state=latest
+      with_items:
+        - nss
+        - curl
+        - libcurl
+    - name: installlll apps
+      yum: name={{ item }} state=latest
+      with_items:
+        - python3
+        - git
+    - name: clone repo
+      ansible.builtin.git:
+        repo: "{{ repo_url }}"
+        dest: "{{ project_dir }}"
+        clone: yes
